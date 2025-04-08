@@ -144,6 +144,54 @@ sudo systemctl enable nginx
 sudo systemctl start nginx
 ```
 
+Configure rsyslog. 
+
+/etc/rsyslog.d/97-in-pm2.conf
+```rsyslog
+# Load the modules needed
+module(load="imfile")  # For reading log files
+
+
+# Input file 1 configuration
+input(
+    type="imfile"
+    File="/root/.pm2/logs/DemoTargetApp-out.log"
+    Tag="demotargetapp-out:"
+    Severity="info"
+    Facility="local1"
+)
+
+# Input file 2 configuration
+input(
+    type="imfile"
+    File="/root/.pm2/logs/DemoTargetApp-error.log"
+    Tag="demotargetapp-error:"
+    Severity="info"
+    Facility="local2"
+)
+```
+/etc/rsyslog.d/98-out-cribl.conf
+```rsyslog
+module(load="omfwd")   # For forwarding logs
+
+# Define the remote syslog server and port
+action(
+    type="omfwd"
+    Target="100.64.0.147:5514"
+    Port="5514"
+    Protocol="tcp"
+)
+```
+
+/etc/rsyslog.d/99-rules.conf
+```rsyslog
+# Send both inputs to the remote syslog server
+if $programname == 'demotargetapp-error' then @@100.64.0.147:5514
+if $programname == 'demotargetapp-out' then @@100.64.0.147:5514
+```
+
+
+
 You should be able to go to the website now and see it.
 
 Note, any mods to the app (git pull or edits of .js files) needs to redo the npm build step above
