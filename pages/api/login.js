@@ -3,7 +3,16 @@ import bcrypt from 'bcrypt';
 import { generateToken } from './auth.js';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end();
+  if (req.method !== 'POST') return res.status(405).end(`
+    <html>
+      <head><title>Unauthorized</title></head>
+      <body>
+        <h1>401 - Unauthorized</h1>
+        <p>Reason: Invalid credentials</p>
+        <a href="/">Back to Home</a>
+      </body>
+    </html>
+  `);
 
   const { username, password } = req.body;
   const ip = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || 'none';
@@ -11,17 +20,31 @@ export default async function handler(req, res) {
   const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
   if (!user) {
     console.log(`action=auth|state=FAIL|username=${username}|IP=${ip}|reason=NOEXIST`)
-    return res.writeHead(302, {
-      Location: '/unauthorized?error=' + encodeURIComponent('Invalid username or password'),
-    }).end();
+    res.status(401).setHeader('Content-Type', 'text/html').end(`
+      <html>
+        <head><title>Unauthorized</title></head>
+        <body>
+          <h1>401 - Unauthorized</h1>
+          <p>Reason: Invalid credentials</p>
+          <a href="/">Back to Home</a>
+        </body>
+      </html>
+    `);
   }
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
     console.log(`action=auth|state=FAILED|username=${username}|IP=${ip},reason=BADPASS`)
-    return res.writeHead(302, {
-      Location: '/unauthorized?error=' + encodeURIComponent('Invalid username or password'),
-    }).end();
+    res.status(401).setHeader('Content-Type', 'text/html').end(`
+      <html>
+        <head><title>Unauthorized</title></head>
+        <body>
+          <h1>401 - Unauthorized</h1>
+          <p>Reason: Invalid credentials</p>
+          <a href="/">Back to Home</a>
+        </body>
+      </html>
+    `);
   }
 
   const token = generateToken(user);
