@@ -41,7 +41,13 @@ JWT_SECRET=supersecurekeyforjwt
 npm run dev
 ```
 
-SQLite DB will auto-create and seed 10 users: `user1` to `user10` with `pass1` to `pass10`.
+SQLite DB will auto-create and seed 10 users: `user1` to `user10` with `pass1` to `pass10`. These credentials will also be written to .web-credentials in the project's root folder.
+
+NOTE, if you change the password, because we're using bcrypt, you can't simply reverse the password in the DB because it's hashed.
+
+```bash
+TODO: insert sqlite3 command/query to reset password here
+```
 
 ### 4. Linux install (AWS Linux2)
 Install node, npm, NGINX and certbot on a linux instance
