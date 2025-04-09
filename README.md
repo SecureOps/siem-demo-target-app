@@ -200,7 +200,12 @@ if $programname == 'demotargetapp-out' then @@100.64.0.147:5514
 
 You should be able to go to the website now and see it.
 
-Note, any mods to the app (git pull or edits of .js files) needs to redo the npm build step above
+Note, any mods to the app:
+```bash
+git pull
+npm run build
+sudo pm2 restart all
+```
 ---
 ---
 
