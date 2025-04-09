@@ -17,6 +17,20 @@ export default async function handler(req, res) {
   const { username, password } = req.body;
   const ip = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || 'none';
   
+  if(!username || !password) {
+    console.log(`action=auth|state=FAIL|username=${username}|IP=${ip}|reason=NOUSERORPASS`)
+    res.status(401).setHeader('Content-Type', 'text/html').end(`
+      <html>
+        <head><title>Unauthorized</title></head>
+        <body>
+          <h1>401 - Unauthorized</h1>
+          <p>Reason: Invalid credentials</p>
+          <a href="/">Back to Home</a>
+        </body>
+      </html>
+    `);    
+  }
+
   const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
   if (!user) {
     console.log(`action=auth|state=FAIL|username=${username}|IP=${ip}|reason=NOEXIST`)
