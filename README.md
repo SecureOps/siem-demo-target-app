@@ -144,6 +144,11 @@ sudo pm2 save
 ```
 At this point you should be have the app listening on port 3000.
 
+You can view the NodeJS console logs
+```bash
+sudo pm2 logs
+```
+
 Enable NGINX
 ```bash
 sudo systemctl enable nginx
