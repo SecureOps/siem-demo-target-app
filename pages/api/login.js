@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   
   const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
   if (!user) {
-    console.log(`action=auth,state=FAIL,username=${username},IP:${ip},reason=NOEXIST`)
+    console.log(`action=auth,state=FAIL,username=${username},IP=${ip},reason=NOEXIST`)
     return res.writeHead(302, {
       Location: '/unauthorized?error=' + encodeURIComponent('Invalid username or password'),
     }).end();
