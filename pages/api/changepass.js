@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   // Fetch full user record from DB
   const record = db.prepare('SELECT * FROM users WHERE id = ?').get(user.id);
   if (!record) {
-    console.log(`action:passchanged,state:FAILED,username:${user.username},IP:${ip},reason: NOEXIST`)
+    console.log(`action=passchanged,state=FAILED,username=${user.username},IP=${ip},reason=NOEXIST`)
     return res.writeHead(302, {
       Location: '/profile?error=' + encodeURIComponent('User not found'),
     }).end();
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
   // Compare old password
   const match = await bcrypt.compare(oldpass, record.password);
   if (!match) {
-    console.log(`action:passchanged,state:FAILED,username:${user.username},IP:${ip},reason:BADPASS`)
+    console.log(`action=passchanged,state=FAILED,username=${user.username},IP=${ip},reason=BADPASS`)
     return res.writeHead(302, {
       Location: '/profile?error=' + encodeURIComponent('Old password is incorrect'),
     }).end();
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
   // Hash and update new password
   const newHash = await bcrypt.hash(newpass, 10);
   db.prepare('UPDATE users SET password = ? WHERE id = ?').run(newHash, user.id);
-  console.log(`action:passchanged,state:SUCCESS,username:${user.username},IP:${ip}`)
+  console.log(`action=passchanged=state=SUCCESS,username=${user.username},IP:${ip}`)
   // Redirect on success
   return res.writeHead(302, {
     Location: '/profile?success=true',
