@@ -167,7 +167,7 @@ module(load="imfile")  # For reading log files
 input(
     type="imfile"
     File="/root/.pm2/logs/DemoTargetApp-out.log"
-    Tag="demotargetapp-out:"
+    Tag="demotargetapp:"
     Severity="info"
     Facility="local1"
 )
@@ -176,7 +176,7 @@ input(
 input(
     type="imfile"
     File="/root/.pm2/logs/DemoTargetApp-error.log"
-    Tag="demotargetapp-error:"
+    Tag="demotargetapperror:"
     Severity="info"
     Facility="local2"
 )
@@ -197,8 +197,8 @@ action(
 /etc/rsyslog.d/99-rules.conf
 ```rsyslog
 # Send both inputs to the remote syslog server
-if $programname == 'demotargetapp-error' then @@100.64.0.147:5514
-if $programname == 'demotargetapp-out' then @@100.64.0.147:5514
+if $programname == 'demotargetapp' then @@100.64.0.147:5514
+if $programname == 'demotargetapperror' then @@100.64.0.147:5514
 ```
 
 
@@ -210,12 +210,5 @@ Note, any mods to the app:
 git pull
 npm run build
 sudo pm2 restart all
+sudo pm2 logs
 ```
----
----
-
-## 🔐 Security Features Added
-
-- Passwords are hashed using `bcrypt` (10 salt rounds).
-- Secure logout route `/api/logout` clears JWT token cookie.
-
