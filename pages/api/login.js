@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   
   if(!username || !password) {
     console.log(`action=auth|state=FAIL|username=${username}|IP=${ip}|reason=NOUSERORPASS`)
-    res.status(401).setHeader('Content-Type', 'text/html').end(`
+    return res.status(401).setHeader('Content-Type', 'text/html').end(`
       <html>
         <head><title>Unauthorized</title></head>
         <body>
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
   const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
   if (!user) {
     console.log(`action=auth|state=FAIL|username=${username}|IP=${ip}|reason=NOEXIST`)
-    res.status(401).setHeader('Content-Type', 'text/html').end(`
+    return res.status(401).setHeader('Content-Type', 'text/html').end(`
       <html>
         <head><title>Unauthorized</title></head>
         <body>
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
     console.log(`action=auth|state=FAILED|username=${username}|IP=${ip},reason=BADPASS`)
-    res.status(401).setHeader('Content-Type', 'text/html').end(`
+    return res.status(401).setHeader('Content-Type', 'text/html').end(`
       <html>
         <head><title>Unauthorized</title></head>
         <body>
