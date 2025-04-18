@@ -69,4 +69,15 @@ const main = async () => {
     }
 }
 
-main()
+// UNCOMMENT for AWS Lambda
+// export const handler = async (event) => {
+//     return await main().then((res) => {
+//       return {}
+//     }).catch(async (err) => {
+//       console.log(err)
+//       return err
+//     })
+// };
+
+// COMMENT OUT for AWS Lambda
+main({})
