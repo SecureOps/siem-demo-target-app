@@ -35,9 +35,9 @@ const login = async (userId, useAltPass = false) => {
         });
         if (res.status == 401 && !useAltPass) {
           console.log("Login failed, trying again with altpassword")
-          setTimeout(async () => {
+          //setTimeout(async () => {
             return await login(randoUser, true)
-          }, 7 * timeoutMillisecs) // Type password
+          //}, 7 * timeoutMillisecs) // Type password
         }
         
         // Get the token
@@ -77,28 +77,28 @@ const report = async () => {
 
 const main = async () => {
   const response = fetch(baseUrl).then(async (resRoot) => {
-      setTimeout(async () => {
+      //setTimeout(async () => {
         return login().then(async (resLogin) =>{
-            setTimeout(async () => {
+            //setTimeout(async () => {
                 if (resLogin.status < 400) {
                     return await profile().then(async (resProfile) => {
                         if (resProfile.status == 200) {
                             const odds = pickRandomNumber()
                             if (odds > 8) {
-                                setTimeout(async () => {
+                                //setTimeout(async () => {
                                     console.log('changing password')
                                     return //await changepass()
-                                }, 8 * timeoutMillisecs) // type two passwords
+                                //}, 8 * timeoutMillisecs) // type two passwords
                             }
-                            setTimeout(async () => {
+                            //setTimeout(async () => {
                                 await report()
-                            }, timeoutMillisecs) // click
+                            //}, timeoutMillisecs) // click
                         }
                     })
                 }
-            }, 5 * timeoutMillisecs) // type user/pass
+            //}, 5 * timeoutMillisecs) // type user/pass
         })
-      },timeoutMillisecs) // click
+      //},timeoutMillisecs) // click
   })
 }
 
