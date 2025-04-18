@@ -12,6 +12,8 @@ let token = ''
 function pickRandomNumber() {
   return Math.floor(Math.random() * 9) + 1;
 }
+
+//TODO: Replace all the commented out setTimeout() functions with delay()
 function delay(t, val) {
   return new Promise(resolve => setTimeout(resolve, t, val));
 }
