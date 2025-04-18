@@ -12,7 +12,9 @@ let token = ''
 function pickRandomNumber() {
   return Math.floor(Math.random() * 9) + 1;
 }
-
+function delay(t, val) {
+  return new Promise(resolve => setTimeout(resolve, t, val));
+}
 const login = async (userId, useAltPass = false) => {
   const loginUrl = baseUrl + "/login"
   return await fetch(loginUrl).then(async () => {
