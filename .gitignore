@@ -135,6 +135,10 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# OS Files
+.DS_Store
+
+# ENV and local files
 .next
 *.sqlite
 .web-credentials
