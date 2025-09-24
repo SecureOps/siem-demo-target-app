@@ -48,7 +48,7 @@ export default async function handler(req, res) {
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    console.log(`action=auth|state=FAILED|username=${username}|IP=${ip},reason=BADPASS`)
+    console.log(`action=auth|state=FAILED|username=${username}|IP=${ip}|reason=BADPASS`)
     return res.status(401).setHeader('Content-Type', 'text/html').end(`
       <html>
         <head><title>Unauthorized</title></head>
