@@ -137,7 +137,7 @@ sudo -l -u root
 
 Build the server
 ```bash
-sudo npm build
+sudo npm run build
 sudo pm2 start npm --name "DemoTargetApp" -- start
 sudo pm2 startup
 sudo pm2 save
