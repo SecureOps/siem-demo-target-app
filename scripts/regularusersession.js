@@ -1,4 +1,5 @@
 const { time } = require("console")
+const crypto = require("crypto");
 
 const baseUrl = "https://demotarget.msslab.redlabnet.com"
 
@@ -10,7 +11,8 @@ const timeoutMillisecs = 1000
 let token = ''
 
 function pickRandomNumber() {
-  return Math.floor(Math.random() * 9) + 1;
+  // Use crypto.randomInt for cryptographically secure random numbers between 1 and 9 inclusive
+  return crypto.randomInt(1, 10);
 }
 
 //TODO: Replace all the commented out setTimeout() functions with delay()
